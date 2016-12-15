@@ -21,8 +21,15 @@ class StringsService
             $words = array_slice($words, 0, $wordLimit);
             return implode(" ", $words);
         } else if (!empty($characterLimit)) {
-            $words = explode(" ", mb_substr($text, 0, $characterLimit, 'UTF-8'));
-            $words = array_pop($words);
+            $trimmedText = mb_substr($text, 0, $characterLimit, 'UTF-8');
+            $words = explode(" ", $trimmedText);
+
+            $allWords = explode(" ", $text);
+
+            if (in_array(end($words), $allWords) !== true) {
+                array_pop($words);
+            }
+
             $return = implode(" ", $words);
 
             if (strlen($return) < strlen($text)) {
