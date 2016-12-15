@@ -14,7 +14,7 @@ namespace Strings\Service;
  */
 class StringsService
 {
-    public function cropWords($text, $characterLimit = null, $wordLimit = null)
+    public function cropWords($text, $characterLimit = null, $wordLimit = null, $postfix = '...')
     {
         if (!empty($wordLimit)) {
             $words = explode(" ", $text);
@@ -23,7 +23,13 @@ class StringsService
         } else if (!empty($characterLimit)) {
             $words = explode(" ", mb_substr($text, 0, $characterLimit, 'UTF-8'));
             $words = array_pop($words);
-            return implode(" ", $words);
+            $text = implode(" ", $words);
+
+            if (strlen($text) > $characterLimit) {
+                $text .= $postfix;
+            }
+
+            return $text;
         } else {
             throw new \Exception('Character or Word limit is needed.');
         }
