@@ -23,13 +23,13 @@ class StringsService
         } else if (!empty($characterLimit)) {
             $words = explode(" ", mb_substr($text, 0, $characterLimit, 'UTF-8'));
             $words = array_pop($words);
-            $text = implode(" ", $words);
+            $return = implode(" ", $words);
 
-            if (strlen($text) > $characterLimit) {
-                $text .= $postfix;
+            if (strlen($return) < strlen($text)) {
+                $return .= $postfix;
             }
 
-            return $text;
+            return $return;
         } else {
             throw new \Exception('Character or Word limit is needed.');
         }
